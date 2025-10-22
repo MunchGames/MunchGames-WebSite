@@ -1,280 +1,185 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Munch Games</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(270deg, #0a0a0a, #1a0033, #0a0a0a);
-      background-size: 600% 600%;
-      animation: darkGradient 15s ease infinite;
-      color: #ffff00;
-      transition: background 0.8s, color 0.8s;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Munch Games</title>
+<style>
+  body {
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    background:linear-gradient(270deg, #0a0a0a, #1a0033, #0a0a0a);
+    background-size:600% 600%;
+    animation:darkGradient 15s ease infinite;
+    color:#ffff00;
+    transition: background 0.8s, color 0.8s;
+    padding-top:50px;
+  }
+  body.light { background: linear-gradient(270deg, #ffffff, #ccccff, #ffffff); color:#000033; }
+  @keyframes darkGradient {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  h1 { font-size:3rem; font-weight:900; letter-spacing:3px; text-align:center; margin-bottom:30px;
+       text-shadow:0 0 10px #ffff00,0 0 20px #ffea00,0 0 30px #ffd700;
+       animation:glowText 2s ease-in-out infinite alternate; transition: color 0.8s, text-shadow 0.8s; }
+  body.light h1 { color:#000033; text-shadow:0 0 5px #8888ff,0 0 10px #6666ff,0 0 15px #4444ff; }
+  @keyframes glowText {from{text-shadow:0 0 5px #ffff00,0 0 15px #ffea00,0 0 20px #ffd700;}to{text-shadow:0 0 15px #ffff00,0 0 30px #ffea00,0 0 40px #ffd700;}}
+  .buttons { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin-bottom:20px;}
+  a.button { text-decoration:none; border:2px solid #ff3b3b; padding:10px 25px; border-radius:20px;
+             transition:0.3s, color 0.8s, box-shadow 0.8s; color:#ffff00;
+             text-shadow:0 0 5px #ffff00,0 0 10px #ffea00,0 0 20px #ffd700;
+             animation:glowText 2s ease-in-out infinite alternate; }
+  a.button:hover { background:#ff3b3b; color:#000; box-shadow:0 0 10px #ff3b3b,0 0 20px #ff0000; transform:scale(1.05);}
+  body.light a.button {color:#000033; border-color:#6666ff; text-shadow:0 0 3px #8888ff,0 0 7px #6666ff,0 0 15px #4444ff;}
+  .info { text-align:center; margin-top:20px; text-shadow:0 0 5px #ffff00,0 0 15px #ffea00,0 0 20px #ffd700; animation:glowText 2s ease-in-out infinite alternate;
+         max-height:0; overflow:hidden; transition:max-height 0.6s ease, padding 0.6s ease, color 0.8s, text-shadow 0.8s; padding:0 20px;}
+  .info.show { max-height:200px; padding:20px; }
+  body.light .info { text-shadow:0 0 3px #8888ff,0 0 7px #6666ff,0 0 15px #4444ff; color:#000033; }
+  .info a { color:inherit; text-decoration:none;}
+  #themeButton {position:fixed; top:15px; left:15px; z-index:9999; padding:10px 15px; border:none; border-radius:50%;
+                background:#ffffff; color:#000; font-size:1.2rem; cursor:pointer; box-shadow:0 0 10px #ffffff; transition:box-shadow 0.5s, transform 0.3s;}
+  #themeButton:hover {box-shadow:0 0 20px #ffffff,0 0 40px #ccccff; transform:scale(1.1);}
+  #gameContainer { display:flex; justify-content:center; gap:50px; margin-top:30px; flex-wrap:wrap; align-items:flex-start;}
+  #gamesList { max-height:0; overflow:hidden; transition:max-height 0.5s ease, padding 0.5s ease; width:200px; margin-bottom:15px;}
+  .gameButton { display:block; width:100%; background:none; border:2px solid #ff3b3b; color:#ffff00; text-align:left; padding:5px 10px; margin-bottom:5px;
+                border-radius:10px; cursor:pointer; transition:0.3s, box-shadow 0.3s;}
+  .gameButton:hover { background:#ff3b3b; color:#000; box-shadow:0 0 10px #ff3b3b,0 0 20px #ff0000; transform:scale(1.05);}
 
-    body.light {
-      background: linear-gradient(270deg, #ffffff, #ccccff, #ffffff);
-      color: #000033;
-    }
+/* Улучшенная кнопка СПИСОК ІГОР */
+  #gamesListButton { width:250px; border:none; border-radius:15px; background:linear-gradient(45deg, #ff0000, #ffea00, #00ffea, #ff00ff);
+                     background-size:400% 400%; color:#000; font-weight:bold; cursor:pointer;
+                     box-shadow:0 0 15px #ff00ff,0 0 30px #00ffee; transition:box-shadow 0.5s, transform 0.3s, background 1s; font-size:1.2rem;
+                     margin-bottom:10px; animation:neonGlow 3s ease-in-out infinite;}
+  #gamesListButton:hover { box-shadow:0 0 30px #ff00ff,0 0 50px #00ffee; transform:scale(1.1);}
+  @keyframes neonGlow {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%;}}
 
-    @keyframes darkGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    h1 {
-      font-size: 3rem; /* збільшили */
-      font-weight: 900; /* жирний */
-      letter-spacing: 3px; /* витягнутий */
-      text-align: center; /* рівно по центру */
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px #ffff00, 0 0 20px #ffea00, 0 0 30px #ffd700;
-      animation: glowText 2s ease-in-out infinite alternate;
-      transition: color 0.8s, text-shadow 0.8s;
-    }
-
-    body.light h1 {
-      color: #000033;
-      text-shadow: 0 0 5px #8888ff, 0 0 10px #6666ff, 0 0 15px #4444ff;
-    }
-
-    @keyframes glowText {
-      from { text-shadow: 0 0 5px #ffff00, 0 0 15px #ffea00, 0 0 20px #ffd700; }
-      to { text-shadow: 0 0 15px #ffff00, 0 0 30px #ffea00, 0 0 40px #ffd700; }
-    }
-
-    .buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    a.button {
-      text-decoration: none;
-      border: 2px solid #ff3b3b;
-      padding: 10px 25px;
-      border-radius: 20px;
-      transition: 0.3s, color 0.8s, box-shadow 0.8s;
-      color: #ffff00;
-      text-shadow: 0 0 5px #ffff00, 0 0 10px #ffea00, 0 0 20px #ffd700;
-      animation: glowText 2s ease-in-out infinite alternate;
-    }
-
-    a.button:hover {
-      background: #ff3b3b;
-      color: #000;
-      box-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000;
-      transform: scale(1.05);
-    }
-
-    body.light a.button {
-      color: #000033;
-      border-color: #6666ff;
-      text-shadow: 0 0 3px #8888ff, 0 0 7px #6666ff, 0 0 15px #4444ff;
-    }
-
-    .info {
-      text-align: center;
-      margin-top: 20px;
-      text-shadow: 0 0 5px #ffff00, 0 0 15px #ffea00, 0 0 20px #ffd700;
-      animation: glowText 2s ease-in-out infinite alternate;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.6s ease, padding 0.6s ease, color 0.8s, text-shadow 0.8s;
-      padding: 0 20px;
-    }
-
-    .info.show {
-      max-height: 200px;
-      padding: 20px;
-    }
-
-    body.light .info {
-      text-shadow: 0 0 3px #8888ff, 0 0 7px #6666ff, 0 0 15px #4444ff;
-      color: #000033;
-    }
-
-    .info a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Кнопка теми */
-    #themeButton {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 50%;
-      background: #ffffff;
-      color: #000;
-      font-size: 1.2rem;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ffffff;
-      transition: box-shadow 0.5s, transform 0.3s;
-    }
-
-    #themeButton:hover {
-      box-shadow: 0 0 20px #ffffff, 0 0 40px #ccccff;
-      transform: scale(1.1);
-    }
-
-    /* Кнопка списку ігор */
-    #gamesListButton {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      background: #ffffff;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ffffff;
-      transition: box-shadow 0.5s, transform 0.3s;
-    }
-
-    #gamesListButton:hover {
-      box-shadow: 0 0 20px #ffffff, 0 0 40px #ccccff;
-      transform: scale(1.1);
-    }
-
-    /* Список ігор */
-    #gamesList {
-      position: fixed;
-      top: 60px;
-      right: 15px;
-      background: rgba(10, 0, 30, 0.9);
-      color: #ffff00;
-      padding: 15px;
-      border-radius: 10px;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease, padding 0.5s ease;
-    }
-
-    .gameButton {
-      display: block;
-      width: 100%;
-      background: none;
-      border: 2px solid #ff3b3b;
-      color: #ffff00;
-      text-align: left;
-      padding: 5px 10px;
-      margin-bottom: 5px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s, box-shadow 0.3s;
-    }
-
-    .gameButton:hover {
-      background: #ff3b3b;
-      color: #000;
-      box-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000;
-      transform: scale(1.05);
-    }
-
-    #gameDescription {
-      margin-top: 10px;
-      text-align: left;
-    }
-
-  </style>
+  /* Модальне вікно */
+  #gameModal {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.9);
+    color:#ffff00;
+    z-index:10000;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    text-align:center;
+    overflow:auto;
+  }
+  #gameModal.show { display:flex; animation:fadeIn 0.3s ease;}
+  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  #gameModalContent { background:#1a0033; border:2px solid #ff3b3b; border-radius:15px; padding:30px; max-width:500px; width:90%; box-shadow:0 0 20px #ff3b3b; }
+  #closeModal { margin-top:20px; padding:8px 15px; border:none; border-radius:10px; background:#ff3b3b; color:#000; cursor:pointer; font-weight:bold; transition:0.3s; }
+  #closeModal:hover { transform:scale(1.05); box-shadow:0 0 10px #ff3b3b,0 0 20px #ff0000;}
+</style>
 </head>
 <body>
 
-  <!-- Кнопки теми та списку ігор -->
-  <button id="themeButton">🌙</button>
-  <button id="gamesListButton">СПИСОК ІГОР</button>
+<button id="themeButton">🌙</button>
 
-  <!-- Заголовок -->
-  <h1>Munch Games</h1>
+<h1>Munch Games</h1>
 
-  <!-- Основні кнопки -->
-  <div class="buttons">
-    <a href="https://t.me/MunchGamesAllGames" target="_blank" class="button">ВСІ НАШІ ІГРИ</a>
-    <a href="#" class="button" onclick="toggleInfo()">Про нас</a>
-    <a href="https://t.me/MunchGames" target="_blank" class="button">TG</a>
+<div class="buttons">
+  <a href="https://t.me/MunchGamesAllGames" target="_blank" class="button">ВСІ НАШІ ІГРИ</a>
+  <a href="#" class="button" id="aboutButton">Про нас</a>
+  <a href="https://t.me/MunchGames" target="_blank" class="button">TG</a>
+</div>
+
+<div class="info" id="info">
+  <p>Команда Munch Games: створюємо круті ігри для всіх платформ!</p>
+  <p>Нові релізи та оновлення щотижня.</p>
+  <p>Слідкуй за нами в <a href="https://t.me/MunchGames" target="_blank">Telegram</a>!</p>
+</div>
+
+<div id="gameContainer">
+  <div>
+    <button id="gamesListButton">СПИСОК ІГОР</button>
+    <div id="gamesList">
+      <button class="gameButton">Секрет Єгора</button>
+      <button class="gameButton">Міґратіон Ґарбузі</button>
+      <button class="gameButton">грибочки</button>
+      <button class="gameButton">Школа</button>
+      <button class="gameButton">ірар</button>
+      <button class="gameButton">івар ремейк</button>
+      <button class="gameButton">Втеча Від Фуррі</button>
+      <button class="gameButton">Хітлер Райдер</button>
+    </div>
   </div>
+</div>
 
-  <!-- Блок Про нас -->
-  <div class="info" id="info">
-    <p>Команда Munch Games: створюємо круті ігри для всіх платформ!</p>
-    <p>Нові релізи та оновлення щотижня.</p>
-    <p>Слідкуй за нами в <a href="https://t.me/MunchGames" target="_blank">Telegram</a>!</p>
+<!-- Модальне вікно -->
+<div id="gameModal">
+  <div id="gameModalContent">
+    <div id="modalText"></div>
+    <button id="closeModal">Закрити</button>
   </div>
+</div>
 
-  <!-- Список ігор -->
-  <div id="gamesList">
-    <button class="gameButton">Секрет Єгора</button>
-    <button class="gameButton">Втеча Від Фуррі</button>
-    <button class="gameButton">Школа</button>
-    <button class="gameButton">Втеча Від Креветки</button>
-    <button class="gameButton">Міґратіон Ґарбузі</button>
-    <button class="gameButton">грибочки</button>
-    <div id="gameDescription"></div>
-  </div>
+<script>
+const themeButton = document.getElementById('themeButton');
+const aboutButton = document.getElementById('aboutButton');
+const info = document.getElementById('info');
+const gamesListButton = document.getElementById('gamesListButton');
+const gamesList = document.getElementById('gamesList');
+const gameButtons = document.querySelectorAll('.gameButton');
+const gameModal = document.getElementById('gameModal');
+const modalText = document.getElementById('modalText');
+const closeModal = document.getElementById('closeModal');
 
-  <script>
-    // Dark/Light тема
-    const themeButton = document.getElementById('themeButton');
-    themeButton.addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      themeButton.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-    });
+const gamesData = {
+  "Секрет Єгора": "Втікай і виживай серед Єгорів.",
+  "Міґратіон Ґарбузі": "Збирай гарбузі.",
+  "грибочки": "Збирай грибочки і дивись на ефекти.",
+  "Школа": "Просто школа.",
+  "ірар": "Врятуйся в світі постапокалипсису.",
+  "івар ремейк": "Ремейк Івар.",
+  "Втеча Від Фуррі": "Втічи від фуррі.",
+  "Хітлер Райдер": "Їздити та пригати на жовтому велосипеді по платформам."
+};
 
-    // Відкриття/закриття блоку Про нас
-    function toggleInfo() {
-      const info = document.getElementById('info');
-      info.classList.toggle('show');
-    }
+// Тема
+themeButton.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  themeButton.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+});
 
-    // Кнопка списку ігор
-    const gamesListButton = document.getElementById('gamesListButton');
-    const gamesList = document.getElementById('gamesList');
+// Про нас
+aboutButton.addEventListener('click', () => {
+  info.classList.toggle('show');
+});
 
-    gamesListButton.addEventListener('click', () => {
-      if (gamesList.style.maxHeight === "0px" || gamesList.style.maxHeight === "") {
-        gamesList.style.maxHeight = "600px";
-        gamesList.style.padding = "15px";
-      } else {
-        gamesList.style.maxHeight = "0";
-        gamesList.style.padding = "0 15px";
-        document.getElementById('gameDescription').innerHTML = '';
-      }
-    });
+// Список ігор
+let isOpen = false;
+gamesListButton.addEventListener('click', () => {
+  isOpen = !isOpen;
+  if(isOpen){
+    gamesList.style.maxHeight = "600px";
+    gamesList.style.padding = "15px";
+  } else {
+    gamesList.style.maxHeight = "0";
+    gamesList.style.padding = "0 15px";
+  }
+});
 
-    // Опис ігор
-    const gamesData = {
-      "Секрет Єгора": "Опис: Таємниці Єгора чекають на вас. Досліджуй світ і розкрий секрети!",
-      "Втеча Від Фуррі": "Опис: Уникай фуррі, збирай бонуси та проходь рівні.",
-      "Школа": "Опис: Пригоди у шкільних коридорах, вирішення головоломок і секрети класів.",
-      "Втеча Від Креветки": "Опис: Захоплююча гонитва та небезпечні пастки від креветки.",
-      "Міґратіон Ґарбузі": "Опис: Подорожуй разом з Ґарбузем через магічні світи та перешкоди.",
-      "грибочки": "Опис: Збирай грибочки, уникай небезпек і відкривай нові рівні."
-    };
+// Модальне вікно для гри
+gameButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const gameName = button.textContent;
+    modalText.innerHTML = `<h2>${gameName}</h2><p>${gamesData[gameName] || ''}</p>`;
+    gameModal.classList.add('show');
+  });
+});
 
-    document.querySelectorAll('.gameButton').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const desc = gamesData[btn.textContent];
-        document.getElementById('gameDescription').innerHTML = desc;
-      });
-    });
-  </script>
+closeModal.addEventListener('click', () => {
+  gameModal.classList.remove('show');
+});
+</script>
 
 </body>
 </html>
