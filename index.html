@@ -33,7 +33,10 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 3rem; /* збільшили */
+      font-weight: 900; /* жирний */
+      letter-spacing: 3px; /* витягнутий */
+      text-align: center; /* рівно по центру */
       margin-bottom: 30px;
       text-shadow: 0 0 10px #ffff00, 0 0 20px #ffea00, 0 0 30px #ffd700;
       animation: glowText 2s ease-in-out infinite alternate;
@@ -128,40 +131,148 @@
       box-shadow: 0 0 20px #ffffff, 0 0 40px #ccccff;
       transform: scale(1.1);
     }
+
+    /* Кнопка списку ігор */
+    #gamesListButton {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ffffff;
+      transition: box-shadow 0.5s, transform 0.3s;
+    }
+
+    #gamesListButton:hover {
+      box-shadow: 0 0 20px #ffffff, 0 0 40px #ccccff;
+      transform: scale(1.1);
+    }
+
+    /* Список ігор */
+    #gamesList {
+      position: fixed;
+      top: 60px;
+      right: 15px;
+      background: rgba(10, 0, 30, 0.9);
+      color: #ffff00;
+      padding: 15px;
+      border-radius: 10px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+    }
+
+    .gameButton {
+      display: block;
+      width: 100%;
+      background: none;
+      border: 2px solid #ff3b3b;
+      color: #ffff00;
+      text-align: left;
+      padding: 5px 10px;
+      margin-bottom: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s, box-shadow 0.3s;
+    }
+
+    .gameButton:hover {
+      background: #ff3b3b;
+      color: #000;
+      box-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000;
+      transform: scale(1.05);
+    }
+
+    #gameDescription {
+      margin-top: 10px;
+      text-align: left;
+    }
+
   </style>
 </head>
 <body>
 
+  <!-- Кнопки теми та списку ігор -->
   <button id="themeButton">🌙</button>
+  <button id="gamesListButton">СПИСОК ІГОР</button>
 
+  <!-- Заголовок -->
   <h1>Munch Games</h1>
 
+  <!-- Основні кнопки -->
   <div class="buttons">
     <a href="https://t.me/MunchGamesAllGames" target="_blank" class="button">ВСІ НАШІ ІГРИ</a>
     <a href="#" class="button" onclick="toggleInfo()">Про нас</a>
     <a href="https://t.me/MunchGames" target="_blank" class="button">TG</a>
   </div>
 
+  <!-- Блок Про нас -->
   <div class="info" id="info">
     <p>Команда Munch Games: створюємо круті ігри для всіх платформ!</p>
     <p>Нові релізи та оновлення щотижня.</p>
     <p>Слідкуй за нами в <a href="https://t.me/MunchGames" target="_blank">Telegram</a>!</p>
   </div>
 
+  <!-- Список ігор -->
+  <div id="gamesList">
+    <button class="gameButton">Секрет Єгора</button>
+    <button class="gameButton">Втеча Від Фуррі</button>
+    <button class="gameButton">Школа</button>
+    <button class="gameButton">Втеча Від Креветки</button>
+    <button class="gameButton">Міґратіон Ґарбузі</button>
+    <button class="gameButton">грибочки</button>
+    <div id="gameDescription"></div>
+  </div>
+
   <script>
+    // Dark/Light тема
+    const themeButton = document.getElementById('themeButton');
+    themeButton.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      themeButton.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+    });
+
+    // Відкриття/закриття блоку Про нас
     function toggleInfo() {
       const info = document.getElementById('info');
       info.classList.toggle('show');
     }
 
-    const themeButton = document.getElementById('themeButton');
-    themeButton.addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      if (document.body.classList.contains('light')) {
-        themeButton.textContent = '☀️';
+    // Кнопка списку ігор
+    const gamesListButton = document.getElementById('gamesListButton');
+    const gamesList = document.getElementById('gamesList');
+
+    gamesListButton.addEventListener('click', () => {
+      if (gamesList.style.maxHeight === "0px" || gamesList.style.maxHeight === "") {
+        gamesList.style.maxHeight = "600px";
+        gamesList.style.padding = "15px";
       } else {
-        themeButton.textContent = '🌙';
+        gamesList.style.maxHeight = "0";
+        gamesList.style.padding = "0 15px";
+        document.getElementById('gameDescription').innerHTML = '';
       }
+    });
+
+    // Опис ігор
+    const gamesData = {
+      "Секрет Єгора": "Опис: Таємниці Єгора чекають на вас. Досліджуй світ і розкрий секрети!",
+      "Втеча Від Фуррі": "Опис: Уникай фуррі, збирай бонуси та проходь рівні.",
+      "Школа": "Опис: Пригоди у шкільних коридорах, вирішення головоломок і секрети класів.",
+      "Втеча Від Креветки": "Опис: Захоплююча гонитва та небезпечні пастки від креветки.",
+      "Міґратіон Ґарбузі": "Опис: Подорожуй разом з Ґарбузем через магічні світи та перешкоди.",
+      "грибочки": "Опис: Збирай грибочки, уникай небезпек і відкривай нові рівні."
+    };
+
+    document.querySelectorAll('.gameButton').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const desc = gamesData[btn.textContent];
+        document.getElementById('gameDescription').innerHTML = desc;
+      });
     });
   </script>
 
