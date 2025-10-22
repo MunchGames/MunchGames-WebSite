@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Munch Games</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #0a0a0a, #1a0033, #0a0a0a);
+      background-size: 600% 600%;
+      animation: darkGradient 15s ease infinite;
+      color: #ffff00;
+      transition: background 0.8s, color 0.8s;
+    }
+
+    body.light {
+      background: linear-gradient(270deg, #ffffff, #ccccff, #ffffff);
+      color: #000033;
+    }
+
+    @keyframes darkGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #ffff00, 0 0 20px #ffea00, 0 0 30px #ffd700;
+      animation: glowText 2s ease-in-out infinite alternate;
+      transition: color 0.8s, text-shadow 0.8s;
+    }
+
+    body.light h1 {
+      color: #000033;
+      text-shadow: 0 0 5px #8888ff, 0 0 10px #6666ff, 0 0 15px #4444ff;
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 5px #ffff00, 0 0 15px #ffea00, 0 0 20px #ffd700; }
+      to { text-shadow: 0 0 15px #ffff00, 0 0 30px #ffea00, 0 0 40px #ffd700; }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    a.button {
+      text-decoration: none;
+      border: 2px solid #ff3b3b;
+      padding: 10px 25px;
+      border-radius: 20px;
+      transition: 0.3s, color 0.8s, box-shadow 0.8s;
+      color: #ffff00;
+      text-shadow: 0 0 5px #ffff00, 0 0 10px #ffea00, 0 0 20px #ffd700;
+      animation: glowText 2s ease-in-out infinite alternate;
+    }
+
+    a.button:hover {
+      background: #ff3b3b;
+      color: #000;
+      box-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000;
+      transform: scale(1.05);
+    }
+
+    body.light a.button {
+      color: #000033;
+      border-color: #6666ff;
+      text-shadow: 0 0 3px #8888ff, 0 0 7px #6666ff, 0 0 15px #4444ff;
+    }
+
+    .info {
+      text-align: center;
+      margin-top: 20px;
+      text-shadow: 0 0 5px #ffff00, 0 0 15px #ffea00, 0 0 20px #ffd700;
+      animation: glowText 2s ease-in-out infinite alternate;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, padding 0.6s ease, color 0.8s, text-shadow 0.8s;
+      padding: 0 20px;
+    }
+
+    .info.show {
+      max-height: 200px;
+      padding: 20px;
+    }
+
+    body.light .info {
+      text-shadow: 0 0 3px #8888ff, 0 0 7px #6666ff, 0 0 15px #4444ff;
+      color: #000033;
+    }
+
+    .info a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Кнопка теми */
+    #themeButton {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #000;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ffffff;
+      transition: box-shadow 0.5s, transform 0.3s;
+    }
+
+    #themeButton:hover {
+      box-shadow: 0 0 20px #ffffff, 0 0 40px #ccccff;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <button id="themeButton">🌙</button>
+
+  <h1>Munch Games</h1>
+
+  <div class="buttons">
+    <a href="https://t.me/MunchGamesAllGames" target="_blank" class="button">ВСІ НАШІ ІГРИ</a>
+    <a href="#" class="button" onclick="toggleInfo()">Про нас</a>
+    <a href="https://t.me/MunchGames" target="_blank" class="button">TG</a>
+  </div>
+
+  <div class="info" id="info">
+    <p>Команда Munch Games: створюємо круті ігри для всіх платформ!</p>
+    <p>Нові релізи та оновлення щотижня.</p>
+    <p>Слідкуй за нами в <a href="https://t.me/MunchGames" target="_blank">Telegram</a>!</p>
+  </div>
+
+  <script>
+    function toggleInfo() {
+      const info = document.getElementById('info');
+      info.classList.toggle('show');
+    }
+
+    const themeButton = document.getElementById('themeButton');
+    themeButton.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      if (document.body.classList.contains('light')) {
+        themeButton.textContent = '☀️';
+      } else {
+        themeButton.textContent = '🌙';
+      }
+    });
+  </script>
+
+</body>
+</html>
